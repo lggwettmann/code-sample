@@ -75,7 +75,7 @@ class Product(models.Model):
         verbose_name = _("Product")
 
     def __str__(self):
-        return f'Product by {self.professional.get_full_name()}'
+        return _not_lazy(f"Product by {self.professional.get_full_name()}")
 
     def save(self, *args, **kwargs):
         if self.discounts.filter(_is_early_bird=True).exists():
