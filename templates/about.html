@@ -1,0 +1,317 @@
+{% extends "frames/layout.html" %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% load activity_tags %}
+{% load course_extras %}
+{% load profile_extras %}
+{% load avatar_tags %}
+
+ 
+{% block title %}{{ block.super }} | {% trans "About us" %}{% endblock title %}
+
+{% block content %}
+<!-- Headline -->
+<div class="row">
+    <div class="col-lg-9 offset-lg-3">
+        <img src="{% static 'img/stock/kit-junglist-71373-unsplash-1600w.jpg' %}" class="img-fluid"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 as-bordered bg-as-rose p-a-3 overlay-t-3">
+        <h1 class="display-5 m-b-2">
+            {% trans "About you" %}
+        </h1>
+        <p class="lead">
+            {% trans "Experience art with other creatives for a more meaningful life." %}
+        </p>
+        <p>
+            {% blocktrans %}If you love the arts, sharing your passion and being creative,
+            you’ll feel right at home here. We believe that everyone deserves a fulfilled and creative life - and
+            making and practising art is an important part of that!{% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}Perhaps you are crazy about making music, singing, dancing, painting, acting, designing,
+            taking pictures or writing - we understand and connect you with other like-minded creative students
+            or teachers to create new opportunities for you to engage more meaningful in life.{% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}Opportunities and sharing passion needs to be fostered. That's why we provide the tools
+            for students and teachers to get together and make their art practise reality.{% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+<!-- What do we do for whom? -->
+<div class="row bg-white m-y-3">
+    <div class="col-lg-4">
+        <div class="card as-unbordered">
+          <div class="card-block">
+            <h5 class="card-title font-bold m-y-1">{% trans "For art lovers and students" %}</h5>
+              <p class="card-subtitle m-b-1">
+                  {% blocktrans %}Find other creatives and the most amazing courses and workshops in your area
+                      by identity-verified teachers.<br>We ensure proper money and course handling between you and
+                      your teachers and provide you with a platform to share your own art with co-creatives.
+                  {% endblocktrans %}
+              </p>
+          </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card as-unbordered">
+          <div class="card-block">
+            <h5 class="card-title font-bold m-y-1">{% trans "For freelance art teachers" %}</h5>
+              <p class="card-subtitle m-b-1">
+                  {% blocktrans %}Connect to and stay in contact with local art students and set up new or existing courses and workshops
+                      with a few clicks.<br>Use your own location or one of our location partners. We handle most
+                      business tasks, so you can focus on your passion.
+                  {% endblocktrans %}
+              </p>
+          </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card as-unbordered">
+          <div class="card-block">
+            <h5 class="card-title font-bold m-y-1">{% trans "For collectives and schools" %}</h5>
+              <p class="card-subtitle m-b-1">
+                  {% blocktrans %}Collaboration opens up a world of opportunities. Freelancers, team up and create
+                      a joint brand, a workshop series together - or run your own school with one of you as admin.
+                      <br>The sky is the limit and you are in control.
+                  {% endblocktrans %}
+              </p>
+          </div>
+        </div>
+    </div>
+</div>
+
+<!-- Our story -->
+<div class="row">
+    <div class="col-lg-4 offset-lg-2 as-bordered bg-as-grey p-a-1 overlay-b-1 z-high">
+        <h1 class="m-b-0">
+            {% trans "Our story" %}
+        </h1>
+    </div>
+</div>
+<div class="row m-b-5">
+    <div class="col-lg-4 offset-lg-1 z-med">
+        <img src="{% static 'img/stock/lars2016-bridge-picturemarv-700w.jpg' %}" class="img-fluid"/>
+    </div>
+    <div class="col-lg-6 bg-as-light-grey overlay-b-2 overlay-l-1 z-low p-a-2 p-l-3 m-b-5">
+        <p>
+            {% blocktrans %}"As a former professional dancer and dance teacher I have been in contact with countless
+            artists over the past years with many of them sharing the same issue; how to easily and efficiently
+            organize courses.{% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}Among art teachers there is a common understanding that there is lots of room for
+            improvement when it comes to the way in which art centres, small art schools and freelance teachers
+            cooperate. Existing management and administrative layers don't operate with current technology making
+            it difficult to quickly and cost effectively get new courses to the market and connect with students.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}When the local art school I worked at decided to let go of their adult education
+            departments, it meant that teachers were losing their jobs and had to continue as independent agents.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}With little knowledge about how to run succesful businesses the to-be independent art
+            teachers came to me asking if they could use CIRCLE Dance, a web-platform for professional dancers I
+            built in the years before, as springboard for selling their services as freelance teachers.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}For several reasons the CIRCLE Dance solutions wouldn’t work, but a similar idea should.
+            This new idea would not only solve the art schools’ problems but also present an innovative new
+            framework for the art community to work together.{% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}After presenting my plans to the heads of the dance department as a solution for all
+            freelance art teachers, they were so impressed that they suggested offering it to their other
+            departments as well. Step by step, I refined the idea, validated the problems with co-workers,
+            locations, and partners, and sharpened the focus. Artship was born."{% endblocktrans %}
+        </p>
+        <p>
+            <footer>
+                - <cite>
+                {% user_tag team_user_lars link=True avatar=False %}, {% trans "ceo & founder"|title %}
+                </cite>
+            </footer>
+        </p>
+    </div>
+</div>
+
+<!-- Team -->
+<div class="row">
+    <div class="col-lg-5 offset-lg-3 as-bordered bg-as-tan overlay-b-1 p-a-2">
+        <h1 class="m-b-0">{% trans "A diverse team"|capfirst %}</h1>
+    </div>
+</div>
+<div class="row m-b-5 bg-as-light-grey">
+    <div class="col-lg-4 p-a-3 p-t-1">
+        <img src="{% static 'img/basics/team/team1.jpg' %}" class="avatar avatar-lg m-b-1"/>
+        <h5 class="font-main">
+            Name 1
+        </h5>
+        <h6 class="font-main m-b-1">
+            {% trans "ceo & founder"|title %}
+        </h6>
+        <p>
+            {% blocktrans %}Name1 is a dancer, dance teacher and creative entrepreneur with the aim of creating fair
+            opportunities for fellow artists. After he graduated at Codarts, he danced for several dance companies and
+            taught amateur classes.{% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}He set up CIRCLE Dance as a subsidy-independent alternative to local professional dance
+            trainings. Besides Rotterdam, he made professional training more available by establishing co-locations
+            throughout the Netherlands, using the same web platform and business formula.{% endblocktrans %}
+        </p>
+    </div>
+    <div class="col-lg-4 p-a-3 p-t-1">
+        <img src="{% static 'img/basics/team/team2.jpg' %}" class="avatar avatar-lg m-b-1"/>
+        <h5 class="font-main">
+            Name 2
+        </h5>
+        <h6 class="font-main m-b-1">
+            {% trans "chief marketing officer"|title %}
+        </h6>
+        <p>
+            {% blocktrans %}Name2 has a master’s degree in Information- and Communication sciences and Philosophy, and
+            is an experienced marketing and communication expert for businesses in the financial and cultural sector.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}He co-founded companies and supported more than 50 individual artists and cultural
+            institutions in fundraising, business development, cultural marketing, training and research.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}Name2 combines his skills in writing and communication with his knowledge of the online
+            world to make sure services are found and strangers are turned into lifelong customers.{% endblocktrans %}
+        </p>
+    </div>
+    <div class="col-lg-4 p-a-3 p-t-1">
+        <img src="{% static 'img/basics/team/team3.jpg' %}" class="avatar avatar-lg m-b-1"/>
+        <h5 class="font-main">
+            Name 3
+        </h5>
+        <h6 class="font-main m-b-1">
+            {% trans "senior advisor"|title %}
+        </h6>
+        <p>
+            {% blocktrans %}Name3 is a globally operating entrepreneur involved in purpose-driven businesses. Name3
+            oversaw European operations for a company, raised funds, managed investor relationships, and helped
+            preparing an IPO.{% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}Name3 decided to fulfill a longstanding wish to study philosophy. After his second master’s
+            degree (his first was in law), Piet became involved in several international business initiatives ranging
+            from start-ups to established organizations. His natural role is to connect people and to help create an
+            environment for achieving shared goals.{% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+<!-- Strategic partners -->
+<div class="row vertical-align m-t-3 m-b-5">
+    <div class="col-lg-7 offset-lg-2 as-bordered bg-as-grey p-a-2">
+        <div class="row m-b-2 vertical-align">
+            <div class="col-lg-4 m-a-1">
+                <a href="https://link1.com" target="_link1">
+                    <img src="{% static 'img/basics/partners/link1-logo.svg' %}" class="img-fluid"/>
+                </a>
+            </div>
+            <div class="col-lg-4 m-a-1">
+
+            </div>
+            <div class="col-lg-4 m-a-1">
+                <a href="https://link2.com" target="_link2">
+                    <img src="{% static 'img/basics/partners/link2-logo.svg' %}" class="img-fluid"/>
+                </a>
+            </div>
+        </div>
+        <div class="row vertical-align">
+            <div class="col-lg-4 m-a-1">
+                <a href="https://link3.com" target="_link3" hidden>
+                    <img src="{% static 'img/basics/partners/link3-logo.svg' %}" class="img-fluid"/>
+                </a>
+            </div>
+            <div class="col-lg-4 m-a-1">
+                <a href="https://link4.com" target="_link4">
+                    <img src="{% static 'img/basics/partners/link4-logo.svg' %}" class="img-fluid"/>
+                </a>
+            </div>
+            <div class="col-lg-4 m-a-1">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 bg-as-rose p-a-2 overlay-l-1">
+        <h2>{% trans "creative partners in crime"|title %}</h2>
+    </div>
+</div>
+
+<!--Testimonials -->
+<div class="row m-t-3 bg-as-light-grey">
+    <div class="col-lg-6 offset-lg-1 offset-l-1 p-a-3">
+        <h3 class="font-main m-b-2">{% trans "what teachers say"|title %}</h3>
+        <blockquote class="blockquote">
+            &ldquo;{% blocktrans %}I was critical what Artship could do for me. It has turned out to be better in just about
+            every aspect.{% endblocktrans %}&rdquo;
+        </blockquote>
+        <p>
+            {% blocktrans %}After more than 20 years in business on my own, I was open, but also critical what Artship
+            could do for me. So far it has turned out to be better in just about every aspect: I enjoy better working
+            conditions, with more freedom, and much - and I mean MUCH - better payment for the same work. I feel much
+            more free to do what I am really good at, while Artship takes care of the back-office, customer service,
+            advertisting, etc. This wave of positive energy also helps me with maintaining the group in the course,
+            new people keep coming and wanting to join. I can see Artship as a viable business-model for the present,
+            and I hope many other professionals will see this too. Together, we could really make a difference,
+            for more jobs, not less.{% endblocktrans %}
+        <p>
+            <footer>
+                - <cite>
+                {% user_tag testimonial_user_1 link=True avatar=False %},
+                <a href="https://link5.com" target="_twitter">@twitter_handle</a></cite>
+            </footer>
+        </p>
+    </div>
+    <div class="col-lg-4 offset-lg-1 p-a-0 overlay-t-1">
+        {% avatar testimonial_user_1 500 class="img-fluid" %}
+    </div>
+</div>
+<div class="row bg-as-grey m-b-5">
+    <div class="col-lg-10 offset-lg-1 p-a-3">
+        <h5 class="font-main">
+            {% blocktrans with count_t=teachers.count %}More than {{ count_t }} amazing teachers believe in us.{% endblocktrans %}
+        </h5>
+        <!-- Teachers Vue-Caroussel -->
+        <carousel :navigation-enabled="true" :pagination-enabled="false" :pagination-size=0 :per-page=8>
+            {% for teacher in teachers %}
+            <slide>
+                <a href="{{ teacher.profile.get_absolute_url }}">
+                    {% avatar teacher 85 class="m-x-1 avatar avatar-md" %}
+                </a>
+            </slide>
+            {% endfor %}
+        </carousel>
+    </div>
+</div>
+
+<!-- CTA: Sign in -->
+<div class="row p-y-3 vertical-align">
+    <div class="col-lg-6 offset-lg-1 as-bordered bg-as-rose p-a-3">
+        <h3 class="m-x-3 m-b-2">
+            {% trans "Let's stay in touch" %}
+        </h3>
+        <p class="lead m-x-3 m-b-2">
+            {% trans "We're happy to send you updates around Artship, our teachers and courses, so you don't miss out on important news." %}
+        </p>
+        <a href="https://link6.com" class="btn btn-lg btn-primary m-l-3 p-x-3">
+            {% trans "Keep me up to date" %}
+        </a>
+        </div>
+        <div class="col-lg-5 p-l-0 overlay-l-1">
+      <img src="{% static 'img/stock/bruce-mars-554383-unsplash.jpg' %}" class="img-fluid"/>
+    </div>
+</div>
+{% endblock %}
