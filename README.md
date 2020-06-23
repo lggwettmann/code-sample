@@ -1,2 +1,2 @@
-# code-sample-hulcnl
-Code Sample for Hulc.nl
+# code-sample
+Code Sample
