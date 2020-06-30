@@ -147,21 +147,20 @@ class CourseProduct(Product):
                 'price': course_product_package.package.price,
             })
             # discounted rates
-            for discount in self.discounts.filter(public=True):
-                # don't show passed early bird discounts or future last-minute discounts
-                # (ineligible independently from user)
-                if not discount.is_over:
-                    (price, discounted_by) = discount.apply(
-                        price=course_product_package.package.price,
-                        course_product_package=course_product_package
-                    )
-                    if discounted_by:
-                        prices.append({
-                            'course_product_package': course_product_package,
-                            'discount_condition': discount,
-                            'discounted_by': discounted_by,
-                            'price': price,
-                        })
+            # only show past early bird discounts or future last-minute discounts
+            # (ineligible independently from user)
+            for discount in [x for x in self.discounts.filter(public=True) if not x.is_over]:
+                (price, discounted_by) = discount.apply(
+                    price=course_product_package.package.price,
+                    course_product_package=course_product_package
+                )
+                if discounted_by:
+                    prices.append({
+                        'course_product_package': course_product_package,
+                        'discount_condition': discount,
+                        'discounted_by': discounted_by,
+                        'price': price,
+                    })
         return prices
 
     # methods
@@ -173,10 +172,9 @@ class CourseProduct(Product):
         return self.packages.filter(kind=package_kind).exists()
 
     def get_packages_with_personalized_prices(self, user):
-        ''' gets prices for all offered packages, adjusted to the user '''
-        package_prices = []
-        for package in self.course_product_packages.filter(is_active=True):  # looping through all possible packages
-            package_prices.append(package.personalized_prices(user=user))
+        ''' gets prices for all offered packages, adjusted to the user and  sorts them by priority '''
+        package_prices = [package.personalized_prices(user=user)
+                          for package in self.course_product_packages.filter(is_active=True)]
         package_prices.sort(key=lambda x: x['priority'])
         return package_prices
 
@@ -226,37 +224,34 @@ class Package(models.Model):
         # Don't allow draft entries to have a pub_date.
         if self.kind == SUBSCRIPTION and self.renewal_frequency is None:
             raise ValidationError(_("Subscriptions need a renewal frequency."))
-        elif self.kind == CLASS_CARD and self.lesson_amount is None:
+        if self.kind == CLASS_CARD and self.lesson_amount is None:
             raise ValidationError(_("Class cards need a lesson amount."))
 
     @property
     def owner(self):
-        return self.user if self.user else self.team
+        return self.user or self.team
 
     @property
     def is_team_package(self) -> bool:
-        return True if self.team else False
+        return bool(self.team)
 
     @property
     def is_teacher_package(self) -> bool:
-        return True if self.teacher else False
+        return bool(self.teacher)
 
     @property
     def article(self):
-        if self.kind == COMPLETE:
-            return _("the")
-        else:
-            return _("a")
+        return _("the") if self.kind == COMPLETE else _("a")
 
     @property
     def payment_recurrence_string(self) -> str:
         ''' returns payment recurrence string for this package, eg "once" or "weekly" '''
-        if self.kind == COMPLETE or self.kind == SINGLE or self.kind == CLASS_CARD:
+        if self.kind in [COMPLETE, SINGLE, CLASS_CARD]:
             return _("once")
         return self.get_renewal_frequency_display()
 
     @property
-    def facebook_pixel_event(self):
+    def facebook_pixel_event(self) -> str:
         ''' returns css-class for specific facebook pixel event '''
         options = {
             COMPLETE: 'addCompleteToCartEvent',
@@ -269,12 +264,13 @@ class Package(models.Model):
     @property
     def priority(self) -> int:
         ''' returns priority which can be used for suggestions or layouts, eg highlight a package with highest priority '''
-        if self.kind == COMPLETE or self.kind == SUBSCRIPTION:
-            return 10
-        if self.kind == CLASS_CARD:
-            return 30
-        if self.kind == SINGLE:
-            return 50
+        options = {
+            COMPLETE: 10,
+            SUBSCRIPTION: 10,
+            CLASS_CARD: 30,
+            SINGLE: 50
+        }
+        return options[self.kind]
 
 
 class CourseProductPackage(models.Model):
@@ -292,8 +288,7 @@ class CourseProductPackage(models.Model):
     def get_intake_price_adjustment(self, join_datetime=timezone.now()) -> Decimal:
         ''' returns intake price adjustment as percentage if applicable '''
         if self.course_product.intake == ADJUSTED_INTAKE\
-                and self.package.kind != SINGLE\
-                and self.package.kind != CLASS_CARD:
+                and self.package.kind not in [SINGLE, CLASS_CARD]:
             # find payment period:
             if self.package.kind == COMPLETE:
                 # find the start and end of the course
@@ -307,7 +302,7 @@ class CourseProductPackage(models.Model):
                 if self.package.renewal_frequency in [WEEKLY, THIRTY_DAYS, THREEHUNDERTSIXTYFIVE_DAYS, TRIGGERED]:
                     # subscriptions with own billing cycle don't have intakes
                     return 1.00
-                elif self.package.renewal_frequency == MONTHLY:
+                if self.package.renewal_frequency == MONTHLY:
                     start = timezone.now().replace(day=1)
                     last_day = calendar.monthrange(timezone.now().year, timezone.now().month)[1]
                 else:  # YEARLY
